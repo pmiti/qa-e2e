@@ -1,0 +1,35 @@
+# Entorno virtual
+venv_qa_e2e/
+
+# Cache de Python
+__pycache__/
+**/__pycache__/
+
+# Archivos compilados
+*.py[cod]
+*$py.class
+
+# Archivos de logs y bases de datos temporales
+*.log
+*.sqlite3
+
+# Configs del editor
+.vscode/
+.idea/
+*.swp
+
+# Archivos de entorno/env
+.env
+
+# Archivos de coverage/testing
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Carpetas generadas por builds o Docker
+dist/
+build/
+*.egg-info/
