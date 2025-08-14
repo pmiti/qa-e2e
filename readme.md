@@ -25,3 +25,5 @@ elements.forEach((el, i) => {
 
 
 playwright codegen --target=python https://qa.syndication.wbd.com
+playwright codegen --target=python https://file-mover.dev.neo-dev.wbd.com/
+playwright codegen --target=python --viewport-size=1920,1080 https://file-mover.dev.neo-dev.wbd.com/
