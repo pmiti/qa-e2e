@@ -16,6 +16,7 @@ password = os.getenv("OKTA_PASS")
 bucket_name = os.getenv("S3_BUCKET_NAME")
 aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+aws_session_token = os.getenv("AWS_REGION_TOKEN")
 region_name = os.getenv("AWS_REGION_NAME")
 
 def verify_file_in_s3(bucket_name, object_key, max_age_seconds=60):
@@ -24,6 +25,7 @@ def verify_file_in_s3(bucket_name, object_key, max_age_seconds=60):
         's3',
         aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key,
+        aws_session_token=aws_session_token,
         region_name=region_name
     )
 
@@ -88,7 +90,7 @@ def test_file_mover_caso1(page: Page):
     page.get_by_role("cell", name="prod uat qa dev local").get_by_label("qa").click()
     #time.sleep(3)
     page.get_by_role("button", name="Upload 1").click()
-    #time.sleep(2)
+    time.sleep(5)
 
     #After upload, verify the file in S3
     object_key = f"assets/graphics/test_qa_image.png"
