@@ -4,13 +4,52 @@ import os
 import pytest
 from pathlib import Path
 import time
+import boto3
+from datetime import datetime, timedelta
+import pytz
+from botocore.exceptions import ClientError
 
 load_dotenv()
 
 usuario = os.getenv("OKTA_USER")
 password = os.getenv("OKTA_PASS")
+bucket_name = os.getenv("S3_BUCKET_NAME")
+aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
+aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+region_name = os.getenv("AWS_REGION_NAME")
 
-#API_URL = "https://api.para.validar"
+def verify_file_in_s3(bucket_name, object_key, max_age_seconds=60):
+
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        region_name=region_name
+    )
+
+    try:
+        response = s3.head_object(Bucket=bucket_name, Key=object_key)
+        last_modified = response['LastModified']
+
+        # Convert both datetimes to UTC for comparison
+        now_utc = datetime.now(pytz.utc)
+        last_modified_utc = last_modified.replace(tzinfo=pytz.utc)
+
+        age = now_utc - last_modified_utc
+        print(f"File age: {age.total_seconds()} seconds")
+
+        if age <= timedelta(seconds=max_age_seconds):
+            print("File is within the allowed age.")
+            return True
+        else:
+            print("File is too old.")
+            return False
+    except ClientError as e:
+        print(f"Error checking file: {e}")
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return False
 
 @pytest.fixture(scope="session")
 def browser():
@@ -39,7 +78,7 @@ def test_file_mover_caso1(page: Page):
     page.wait_for_url("https://file-mover.dev.neo-dev.wbd.com/", timeout=30000)
 
     # Upload Files
-    file_path = Path(__file__).parent / "resources" / "image.png"
+    file_path = Path(__file__).parent / "resources" / "test_qa_image.png"
     page.set_input_files("input[type='file']", str(file_path))    
 
     page.get_by_role("combobox").click()
@@ -47,8 +86,10 @@ def test_file_mover_caso1(page: Page):
     page.get_by_role("combobox").filter(has_text="Select Sub Type").click()
     page.get_by_text("Moving").click()
     page.get_by_role("cell", name="prod uat qa dev local").get_by_label("qa").click()
-    time.sleep(3)
-    #mejorar esta parte, avanzar cuando el boton este habilitado
+    #time.sleep(3)
     page.get_by_role("button", name="Upload 1").click()
-    time.sleep(2)
+    #time.sleep(2)
 
+    #After upload, verify the file in S3
+    object_key = f"assets/graphics/test_qa_image.png"
+    assert verify_file_in_s3(bucket_name, object_key), "File verification failed in S3"
