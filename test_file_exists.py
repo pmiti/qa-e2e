@@ -4,9 +4,9 @@ import pytz
 from botocore.exceptions import ClientError
 
 bucket_name = "wbd-syndication-us-east-1-media-qa"
-aws_access_key_id = "ASIAU6GDVWX3WEPMMAPG"
-aws_secret_access_key = "DJuBbcBRVzkWxwOu2GTSKGsRXfT6h6jiI13IKpn+"
-aws_session_token = "FwoGZXIvYXdzEIj//////////wEaDIErHZslZp6DO/f+iSLzAZ5As8hb7pVYUe2e/AGmQn/r9dNUiczhQ9A155JnK2p/SletkbdditMu2LCVuZF674PEIy3L1I4hN9Iozi83GsngRAkNUDwI+AHvTG/ieZkqEH1U8E+YJW90xIQfRgzQ/sxOFI6vvKz26/El7SNThRuWODGKNhAXN2fXx+4fhaKf0nXN6le5+IbEf3epFPgaEk+NVjj0dwQsjWuUGBzv7lYT8WTp5lR7R6HIIjudXyi0lqStHG2fDuuPvaIVtiCOGBaAwNPRNiwBJJE5kQbV4tvxn74TAmswv4H6nle3XWEx/gUy7fmFmnzQyOrbH/q2ICOEIiiYk5LFBjIr4Bm8XgvV7JBkrCQTRS0auqe2wnI+LC8r7xqYX+KCaqWnE5PeIQatyJUyqA=="
+aws_access_key_id = "ASIAU6GDVWX3T432IGYE"
+aws_secret_access_key = "cCkFmtY0I2Oonp1Habzj7zixcBtUOub8DrAre+3+"
+aws_session_token = "FwoGZXIvYXdzEM7//////////wEaDDH+O5kHQdtDfe27RSLzATUW3JZB8oiZczHtYB7TLFl1f9UTNoL9K8G/7PpJRGbN2X2KW92ZdpU64lNfQj8Y7V+SqebBfDLW5/v8tAN3O0ayDILHSgrMFEeg0pAmVEXHfx6pb5BqbT5aXCcJXytXTzRakP+JDogDgrHs3GIjjq3v35L1UShcFW0LqQ9Y600UyruYa3JdhTGLvW8/op3aO5wNe+sMEzOFODEdloQt/DYibp6F+1ghnwCtHHCsFl4uHUtXy3OWSuXk/2ht3eZw0jjL9x+EAQAu+8XFbmENEnkf19rQdQr7TtosFHAp14LhMJTWko8I/k9HPmors+8G7BQyVCjVzqHFBjIrQ3pg8Zxp7Weplm7nDvx8q0QuRLorNVRiEKaEWfi82BwUyrSd4EEHABM13w=="
 region_name = "us-east-1"
 
 def verify_file_in_s3(bucket_name, object_key, max_age_seconds=60):
@@ -45,6 +45,9 @@ def verify_file_in_s3(bucket_name, object_key, max_age_seconds=60):
 
 
 if __name__ == "__main__":
-    object_key = f"assets/graphics/test_qa_image.png"
-    result = verify_file_in_s3(bucket_name, object_key)
+    result = False
+    object_key = f"assets/graphics/FM_test_8_21_1920x1080.jpg"
+    if verify_file_in_s3(bucket_name, object_key):
+        object_key = f"assets/graphics/FM_test_8_21_1920x1080.png"
+        result = verify_file_in_s3(bucket_name, object_key)
     print(result)
