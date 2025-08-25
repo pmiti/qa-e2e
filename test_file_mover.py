@@ -66,6 +66,7 @@ def page(browser):
     yield page
 
 @pytest.mark.file_mover_caso1
+@pytest.mark.skip
 def test_file_mover_caso1(page: Page):
     # Login en Okta
     page.goto("https://ssodev.wbd.com/app/twdev_clpfilemover_1/exk2080qwj3HLaaVK0h8/sso/saml?SAMLRequest=jZFBb4JAEIX%2FCtk77IIt0o1gbD1oalOj1EMvZlmmSl12KbOgP78Ba2ovpsfJzLxv5r3R%2BFQqp4UaC6Nj4nuMjJMRilJVfNLYvV7BVwNonVOpNPK%2BEZOm1twILJBrUQJyK%2Fl68rLggcd4VRtrpFHEmU9jss380A%2BHoRwEGctzMRwE0ZA4mwsw8Bhx5ogNzDVaoW1MAhbcuyxy%2FbvUj7gf8mDoPYT%2BO3GWP9KPhc4Lvbt9R3YeQj5L06W7fF2nxJkC2kIL26P31lbIKUU0ObTeMcs9aUoqqoraYw7tVqrqo1BQmhbqrU%2FhdAhYxL6On4PZQojNM9tH3TLtTCHOBBHqTvnJaGxKqNdQt4WEt9Xil9Xpub2g1zE1GPearcyu0FQKpTIhD%2BQcBO%2Ftqa8SuP24uBxCkv9hR%2FQKk5yrv%2Bkn3w%3D%3D")

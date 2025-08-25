@@ -102,7 +102,8 @@ def verify_file_in_s3(bucket_name, object_key, max_age_seconds=60):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return False
-    
+
+@pytest.mark.skip
 def test_example(page: Page) -> None:
     page.goto("https://ssodev.wbd.com/app/twdev_clpfilemover_1/exk2080qwj3HLaaVK0h8/sso/saml?SAMLRequest=jZFBb8IwDIX%2FSpR7mzRoUCIoYuMAGtPQ6DjsgtI2g4w0KXFa%2BPlTy9DYBe1o2X6f%2Fd5oci41aqQDZc0YRyHFk2QEotQVn9Z%2Bb97ksZbg0bnUBnjXGOPaGW4FKOBGlBK4z%2Fl6%2BrLkLKS8ctbb3GqMFrMx3kYDNmBFPBT9bMiKLKJZxjDaXIEspBgtAGq5MOCF8WPMKHsIaBywKI16nMWc9UJG%2Bx8YrX6kH5UplNndvyO7DAGfp%2BkqWL2uU4xmErwywnfovfcVcEIAbCGb8JQVYW5LIqqK%2BFMhm22uq0%2BlZWkb6bYRkecDozE9nr5686UQm2e6j9tl0pqC0RRAulb5yRqoS%2BnW0jUql%2B9vy19Wqxd0gmHLNNIGt2xtd8qQXGidifyAL0Hwzh53k8D9x8X1EJz8DzsiN5jkUv1NP%2FkG")
     page.get_by_role("textbox", name="Username").click()

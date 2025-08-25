@@ -33,3 +33,6 @@ coverage.xml
 dist/
 build/
 *.egg-info/
+
+allure-report/
+allure-results/

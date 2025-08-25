@@ -27,3 +27,36 @@ elements.forEach((el, i) => {
 playwright codegen --target=python https://qa.syndication.wbd.com
 playwright codegen --target=python https://file-mover.dev.neo-dev.wbd.com/
 playwright codegen --target=python --viewport-size=1920,1080 https://file-mover.dev.neo-dev.wbd.com/
+
+allure:
+pip install allure-pytest
+https://github.com/allure-framework/allure2
+https://www.oracle.com/java/technologies/downloads/#jdk24-windows
+allure --version
+pytest --alluredir=allure-results
+pytest --alluredir=allure-results/run1
+pytest --alluredir=allure-results/run2
+allure serve allure-results
+allure generate allure-results -o allure-report --clean
+python -m http.server 8080
+
+
+
+
+
+flujo convinado:
+# 1. Correr los tests con diferentes parámetros (3 corridas distintas)
+pytest --alluredir=allure-results/run1
+pytest --alluredir=allure-results/run2
+pytest --alluredir=allure-results/run3
+
+# 2. Generar el reporte unificado en carpeta "allure-report"
+allure generate allure-results/run1 allure-results/run2 allure-results/run3 -o allure-report --clean
+
+# 3a. Verlo localmente (levanta un server en http://localhost:port)
+allure serve allure-results/run1 allure-results/run2 allure-results/run3
+
+# 3b. O bien abrir el reporte ya generado
+allure open allure-report
+
+
