@@ -57,6 +57,7 @@ jobs:
 
       - name: Generate Allure report
         run: allure generate allure-results -o allure-report --clean
+
       - name: Copy report to deployment folder
         run: |
           mkdir -p public
