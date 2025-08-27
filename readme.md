@@ -38,25 +38,20 @@ pytest --alluredir=allure-results/run1
 pytest --alluredir=allure-results/run2
 allure serve allure-results
 allure generate allure-results -o allure-report --clean
+allure open allure-report
 python -m http.server 8080
 
 
 
+# para acumular historico:
+if (Test-Path allure-results\history) {
+    Remove-Item -Recurse -Force allure-results\history
+}
+Copy-Item -Recurse allure-report\history allure-results\
 
+pytest --alluredir=allure-results
+allure generate allure-results -o allure-report --clean
 
-flujo convinado:
-# 1. Correr los tests con diferentes parámetros (3 corridas distintas)
-pytest --alluredir=allure-results/run1
-pytest --alluredir=allure-results/run2
-pytest --alluredir=allure-results/run3
-
-# 2. Generar el reporte unificado en carpeta "allure-report"
-allure generate allure-results/run1 allure-results/run2 allure-results/run3 -o allure-report --clean
-
-# 3a. Verlo localmente (levanta un server en http://localhost:port)
-allure serve allure-results/run1 allure-results/run2 allure-results/run3
-
-# 3b. O bien abrir el reporte ya generado
 allure open allure-report
 
-
+pytest test_dummy.py --alluredir=allure-results
