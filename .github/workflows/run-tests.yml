@@ -24,11 +24,13 @@ jobs:
       - name: Run tests
         run: pytest --alluredir=allure-results || true
 
-      - name: Install Allure CLI
-        run: |
-          sudo apt-add-repository -y ppa:qameta/allure
-          sudo apt-get update
-          sudo apt-get install -y allure
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Allure CLI via npm
+        run: npm install -g allure-commandline --save-dev
 
       - name: Generate Allure report
         run: allure generate allure-results -o allure-report --clean
