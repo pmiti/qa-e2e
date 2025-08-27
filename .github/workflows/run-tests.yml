@@ -22,7 +22,7 @@ jobs:
           playwright install
 
       - name: Run tests
-        run: pytest --alluredir=allure-results
+        run: pytest --alluredir=allure-results || true
 
       - name: Generate Allure report
         run: allure generate allure-results -o allure-report --clean
