@@ -1,7 +1,7 @@
-name: Run QA Tests
+name: Run QA Tests and Publish Report
 
 on:
-  workflow_dispatch:  # Permite ejecutarlo manualmente desde GitHub
+  workflow_dispatch:
 
 jobs:
   run-tests:
@@ -24,6 +24,26 @@ jobs:
       - name: Run tests
         run: pytest --alluredir=allure-results || true
 
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path: allure-results/
+
+  deploy-report:
+    needs: run-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout QA repo
+        uses: actions/checkout@v3
+
+      - name: Download test results
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-results
+          path: allure-results/
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -35,3 +55,14 @@ jobs:
       - name: Generate Allure report
         run: allure generate allure-results -o allure-report --clean
 
+      - name: Copy report to deployment folder
+        run: |
+          mkdir -p public
+          cp -r allure-report/* public/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
