@@ -1,10 +1,9 @@
 name: Run QA Tests and Publish Report
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+  repository_dispatch:
+    types: [run-tests]
 
 permissions:
   contents: write  # Necesario para hacer push a gh-pages
